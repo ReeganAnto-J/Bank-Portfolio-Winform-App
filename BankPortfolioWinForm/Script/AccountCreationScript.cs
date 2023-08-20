@@ -42,5 +42,99 @@ namespace BankPortfolioWinForm.Script
                 else password = value;
             }
         }
+
+        public int SaveToFile()
+        {
+            string? filePath, tempFilePath, line;
+            bool replaced;
+            int i;
+            try
+            {
+                // Storing id number, name and DOB in Details.csv
+                filePath = @"../../../Data/Details.csv";
+                tempFilePath = Path.GetTempFileName();
+                replaced = false;
+                i = 0;
+                using (StreamReader reader = new StreamReader(filePath))
+                using (StreamWriter writer = new StreamWriter(tempFilePath))
+                {
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        i++;
+                        if (string.IsNullOrWhiteSpace(line) && !replaced)
+                        {
+                            writer.WriteLine($"{i},{Name},{DateOfBirth}");
+                            replaced = true;
+                        }
+                        else
+                        {
+                            writer.WriteLine(line);
+                        }
+                    }
+                    if (!replaced) { writer.WriteLine($"{i+1},{Name},{DateOfBirth}"); }
+                }
+                File.Delete(filePath);
+                File.Move(tempFilePath, filePath);
+
+                // Storing id number and password in Password.csv
+                filePath = @"../../../Data/Password.csv";
+                tempFilePath = Path.GetTempFileName();
+                replaced = false;
+                i = 0;
+                using (StreamReader reader = new StreamReader(filePath))
+                using (StreamWriter writer = new StreamWriter(tempFilePath))
+                {
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        i++;
+                        if (string.IsNullOrWhiteSpace(line) && !replaced)
+                        {
+                            writer.WriteLine($"{i},{Password}");
+                            replaced = true;
+                        }
+                        else
+                        {
+                            writer.WriteLine(line);
+                        }
+                    }
+                    if (!replaced) { writer.WriteLine($"{i + 1},{Password}"); }
+                }
+                File.Delete(filePath);
+                File.Move(tempFilePath, filePath);
+
+                // Storing id number and setting balance as zero in Balance.csv
+                filePath = @"../../../Data/Balance.csv";
+                tempFilePath = Path.GetTempFileName();
+                replaced = false;
+                i = 0;
+                using (StreamReader reader = new StreamReader(filePath))
+                using (StreamWriter writer = new StreamWriter(tempFilePath))
+                {
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        i++;
+                        if (string.IsNullOrWhiteSpace(line) && !replaced)
+                        {
+                            writer.WriteLine($"{i},{0}");
+                            replaced = true;
+                        }
+                        else
+                        {
+                            writer.WriteLine(line);
+                        }
+                    }
+                    if (!replaced) { writer.WriteLine($"{i + 1},{0}"); }
+                }
+                File.Delete(filePath);
+                File.Move(tempFilePath, filePath);
+
+                // Indicating that the saving is successful!
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0; 
+            }
+        }
     }
 }

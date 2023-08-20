@@ -10,8 +10,11 @@ namespace BankPortfolioWinForm
         private void Form1_Load(object sender, EventArgs e)
         {
             using StreamWriter passwordFileCreator = new StreamWriter(@"../../../Data/Password.csv", true);
+            passwordFileCreator.Close();
             using StreamWriter detailsFileCreator = new StreamWriter(@"../../../Data/Details.csv", true);
+            detailsFileCreator.Close();
             using StreamWriter balanceFileCreator = new StreamWriter(@"../../../Data/Balance.csv", true);
+            balanceFileCreator.Close();
         }
 
         private void button1_Click(object sender, EventArgs e)

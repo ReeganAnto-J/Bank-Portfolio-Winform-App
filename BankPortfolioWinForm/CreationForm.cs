@@ -24,7 +24,7 @@ namespace BankPortfolioWinForm
 
         private void button1_Click(object sender, EventArgs e)
         {
-            bool valuesAreSavedWithoutIssue = false;
+            int valuesAreSavedWithoutIssue = -1;
             try
             {
                 Script.AccountCreationScript createAccount = new Script.AccountCreationScript();
@@ -32,10 +32,24 @@ namespace BankPortfolioWinForm
                 createAccount.DateOfBirth = Convert.ToDateTime(dateTimePicker1.Text);
                 if (textBox2.Text.Equals(textBox3.Text) == false) throw new InvalidOperationException("Passwords didn't match");
                 else createAccount.Password = textBox2.Text;
+                valuesAreSavedWithoutIssue = createAccount.SaveToFile();
             }
             catch (Exception ex) 
             {
                 MessageBox.Show(ex.Message,"Recheck your input!");
+            }
+            finally
+            {
+                if (valuesAreSavedWithoutIssue == 1)
+                {
+                    MessageBox.Show("Contents were saved successfully!");
+                    this.Close();
+                }
+                else if (valuesAreSavedWithoutIssue == 0)
+                {
+                    MessageBox.Show("Unable to save the files properly");
+                    this.Close();
+                }
             }
         }
     }
