@@ -36,6 +36,7 @@
             textBox3 = new TextBox();
             label4 = new Label();
             dateTimePicker1 = new DateTimePicker();
+            button1 = new Button();
             SuspendLayout();
             // 
             // textBox1
@@ -112,11 +113,21 @@
             dateTimePicker1.Size = new Size(171, 23);
             dateTimePicker1.TabIndex = 8;
             // 
+            // button1
+            // 
+            button1.Location = new Point(373, 305);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 9;
+            button1.Text = "Submit";
+            button1.UseVisualStyleBackColor = true;
+            // 
             // CreationForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button1);
             Controls.Add(dateTimePicker1);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -141,5 +152,6 @@
         private TextBox textBox3;
         private Label label4;
         private DateTimePicker dateTimePicker1;
+        private Button button1;
     }
 }

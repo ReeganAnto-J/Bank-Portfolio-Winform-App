@@ -20,8 +20,9 @@ namespace BankPortfolioWinForm
         private void button1_Click(object sender, EventArgs e)
         {
             CreationForm creationForm = new CreationForm();
+            this.Hide();
             creationForm.ShowDialog();
-            this.Close();
+            this.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)
