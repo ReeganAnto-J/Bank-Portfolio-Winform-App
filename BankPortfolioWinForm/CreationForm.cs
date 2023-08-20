@@ -20,23 +20,23 @@ namespace BankPortfolioWinForm
         private void label1_Click(object sender, EventArgs e)
         {
 
-        }
+        }// Ignore
 
         private void button1_Click(object sender, EventArgs e)
         {
             int valuesAreSavedWithoutIssue = -1;
             try
             {
-                Script.AccountCreationScript createAccount = new Script.AccountCreationScript();
+                Script.AccountManagementScript createAccount = new Script.AccountManagementScript();
                 createAccount.Name = textBox1.Text;
                 createAccount.DateOfBirth = Convert.ToDateTime(dateTimePicker1.Text);
                 if (textBox2.Text.Equals(textBox3.Text) == false) throw new InvalidOperationException("Passwords didn't match");
                 else createAccount.Password = textBox2.Text;
                 valuesAreSavedWithoutIssue = createAccount.SaveToFile();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,"Recheck your input!");
+                MessageBox.Show(ex.Message, "Recheck your input!");
             }
             finally
             {
@@ -52,5 +52,10 @@ namespace BankPortfolioWinForm
                 }
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        } // Ignore
     }
 }

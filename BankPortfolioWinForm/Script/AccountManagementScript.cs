@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace BankPortfolioWinForm.Script
 {
-    class AccountCreationScript
+    class AccountManagementScript
     {
         private string? name, password;
+        private bool deleteConfirmation;
         private DateTime dateOfBirth;
 
         public string? Name
@@ -42,6 +43,7 @@ namespace BankPortfolioWinForm.Script
                 else password = value;
             }
         }
+       public bool DeleteConfirmation { get; set; }
 
         public int SaveToFile()
         {
@@ -135,6 +137,16 @@ namespace BankPortfolioWinForm.Script
             {
                 return 0; 
             }
+        }
+
+        public bool ValidateAccount()
+        {
+            return false;
+        }
+
+        public bool DeleteAccount()
+        {
+            return false;
         }
     }
 }

@@ -27,12 +27,36 @@ namespace BankPortfolioWinForm
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            string? isDatabaseEmpty;
+            using (StreamReader checkDbContent = new(@"../../../Data/Details.csv"))
+            {
+                isDatabaseEmpty = checkDbContent.ReadToEnd();
+            }
+            if (string.IsNullOrEmpty(isDatabaseEmpty)) MessageBox.Show("No account exists");
+            else
+            {
+                VerificationForm verificationForm = new VerificationForm(false);
+                this.Hide();
+                verificationForm.ShowDialog();
+                this.Show();
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            string? isDatabaseEmpty;
+            using (StreamReader checkDbContent = new(@"../../../Data/Details.csv"))
+            {
+                isDatabaseEmpty = checkDbContent.ReadToEnd();
+            }
+            if (string.IsNullOrEmpty(isDatabaseEmpty)) MessageBox.Show("No account exists");
+            else
+            {
+                VerificationForm verificationForm = new VerificationForm(true);
+                this.Hide();
+                verificationForm.ShowDialog();
+                this.Show();
+            }
         }
     }
 }
