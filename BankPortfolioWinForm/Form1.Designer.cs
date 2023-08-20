@@ -53,6 +53,7 @@
             label1.Size = new Size(378, 96);
             label1.TabIndex = 1;
             label1.Text = "Portfolio Bank CRUD App\r\nBy Reegan Anto.J\r\nArtificial Intelligence and Data Science\r\nAdhi College of Engineering and Technology";
+            label1.Click += label1_Click;
             // 
             // button2
             // 

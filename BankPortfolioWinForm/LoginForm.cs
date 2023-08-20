@@ -17,6 +17,18 @@ namespace BankPortfolioWinForm
             InitializeComponent();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CreationForm creationForm = new CreationForm();
+            creationForm.ShowDialog();
+            this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
 

@@ -9,7 +9,7 @@ namespace BankPortfolioWinForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            MessageBox.Show("Yep, I would really appreciate your testing");
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -23,6 +23,11 @@ namespace BankPortfolioWinForm
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Yep, I would really appreciate your testing");
         }
     }
 }
