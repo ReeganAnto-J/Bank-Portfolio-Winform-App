@@ -16,7 +16,7 @@ namespace BankPortfolioWinForm.Script
             get => name;
             set
             {
-                if (value == null) throw new ArgumentNullException("Name cannot be empty!");
+                if (value == null || value.Length == 0) throw new InvalidDataException("Name cannot be empty!");
                 else if (value.All(Char.IsLetter) == false) throw new InvalidDataException("Name should only have letters");
                 else name = value;
             }
@@ -27,7 +27,7 @@ namespace BankPortfolioWinForm.Script
             set
             {
                 // Note to Reegan: Should check later
-                if (DateTime.Now.Year - dateOfBirth.Year < 18) throw new AccessViolationException("Must be 18 or older!");
+                if (DateTime.Today.Year - value.Year < 18) throw new InvalidDataException("Must be 18 or older!");
                 else dateOfBirth = value;
             }
         }
@@ -36,8 +36,9 @@ namespace BankPortfolioWinForm.Script
             get => password;
             set
             {
-                if (value == null) throw new ArgumentNullException("Name cannot be empty!");
-                else if (!value.All(Char.IsDigit)) throw new InvalidDataException("Name should only have numbers");
+                if (value == null || value.Length == 0) throw new InvalidDataException("Password cannot be empty!");
+                else if (value.Length != 4) throw new InvalidDataException("Password must have 4 digits");
+                else if (!value.All(Char.IsDigit)) throw new InvalidDataException("Password should only have numbers");
                 else password = value;
             }
         }
