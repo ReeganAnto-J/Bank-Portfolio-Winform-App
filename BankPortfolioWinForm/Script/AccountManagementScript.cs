@@ -63,9 +63,9 @@ namespace BankPortfolioWinForm.Script
                     while ((line = reader.ReadLine()) != null)
                     {
                         i++;
-                        if (string.IsNullOrWhiteSpace(line) && !replaced)
+                        if ((string.IsNullOrWhiteSpace(line) || line.Equals("DELETED") )&& !replaced)
                         {
-                            writer.WriteLine($"{i},{Name},{DateOfBirth}");
+                            writer.WriteLine($"{i},{Name},{DateOfBirth.ToString("dd/M/yyyy")}");
                             replaced = true;
                         }
                         else
@@ -73,7 +73,7 @@ namespace BankPortfolioWinForm.Script
                             writer.WriteLine(line);
                         }
                     }
-                    if (!replaced) { writer.WriteLine($"{i+1},{Name},{DateOfBirth}"); }
+                    if (!replaced) { writer.WriteLine($"{i+1},{Name},{DateOfBirth.ToString("dd/M/yyyy")}"); }
                 }
                 File.Delete(filePath);
                 File.Move(tempFilePath, filePath);
@@ -89,7 +89,7 @@ namespace BankPortfolioWinForm.Script
                     while ((line = reader.ReadLine()) != null)
                     {
                         i++;
-                        if (string.IsNullOrWhiteSpace(line) && !replaced)
+                        if (string.IsNullOrWhiteSpace(line) || line.Equals("DELETED") && !replaced)
                         {
                             writer.WriteLine($"{i},{Password}");
                             replaced = true;
@@ -115,7 +115,7 @@ namespace BankPortfolioWinForm.Script
                     while ((line = reader.ReadLine()) != null)
                     {
                         i++;
-                        if (string.IsNullOrWhiteSpace(line) && !replaced)
+                        if (string.IsNullOrWhiteSpace(line) || line.Equals("DELETED") && !replaced)
                         {
                             writer.WriteLine($"{i},{0}");
                             replaced = true;
@@ -146,7 +146,51 @@ namespace BankPortfolioWinForm.Script
 
         public bool DeleteAccount()
         {
-            return false;
+            int index = -1;
+            string? filePath = @"../../../Data/Details.csv";
+            string[] seperatedValues, fileReadValue;
+            try
+            {
+                // To check if the value exists and to find the index
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        seperatedValues = reader.ReadLine().Split(',');
+                        if (seperatedValues.Length > 2)
+                        {
+                            if (seperatedValues[1].Equals(Name) && seperatedValues[2].Equals(DateOfBirth.ToString("dd/M/yyyy")))
+                            {
+                                int.TryParse(seperatedValues[0], out index);
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (index == -1) return false; // Doesn't exist
+
+                // To remove from Details.csv
+                fileReadValue = File.ReadAllLines(filePath);
+                fileReadValue[index - 1] = "DELETED";
+                File.WriteAllLines(filePath, fileReadValue);
+
+                // To remove from Password.csv
+                filePath = @"../../../Data/Password.csv";
+                fileReadValue = File.ReadAllLines(filePath);
+                fileReadValue[index - 1] = "DELETED";
+                File.WriteAllLines(filePath, fileReadValue);
+
+                // To remove from Balance.csv
+                filePath = @"../../../Data/Balance.csv";
+                fileReadValue = File.ReadAllLines(filePath);
+                fileReadValue[index - 1] = "DELETED";
+                File.WriteAllLines(filePath, fileReadValue);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return true;
         }
     }
 }
