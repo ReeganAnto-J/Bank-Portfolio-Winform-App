@@ -38,6 +38,7 @@
             label1 = new Label();
             textBox1 = new TextBox();
             label5 = new Label();
+            button2 = new Button();
             SuspendLayout();
             // 
             // button1
@@ -133,11 +134,22 @@
             label5.TabIndex = 19;
             label5.Text = "Delete Confirmation";
             // 
+            // button2
+            // 
+            button2.Location = new Point(489, 312);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 20;
+            button2.Text = "Close";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // VerificationForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button2);
             Controls.Add(label5);
             Controls.Add(button1);
             Controls.Add(dateTimePicker1);
@@ -167,5 +179,6 @@
         private Label label1;
         private TextBox textBox1;
         private Label label5;
+        private Button button2;
     }
 }

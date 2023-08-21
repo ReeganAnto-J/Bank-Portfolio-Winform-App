@@ -139,9 +139,36 @@ namespace BankPortfolioWinForm.Script
             }
         }
 
-        public bool ValidateAccount()
+        public int ValidateAccount()
         {
-            return false;
+            int index = -1;
+            string? filePath = @"../../../Data/Details.csv";
+            string[] seperatedValues, fileReadValue;
+            try
+            {
+                // To check if the value exists and to find the index
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        seperatedValues = reader.ReadLine().Split(',');
+                        if (seperatedValues.Length > 2)
+                        {
+                            if (seperatedValues[1].Equals(Name) && seperatedValues[2].Equals(DateOfBirth.ToString("dd/M/yyyy")))
+                            {
+                                int.TryParse(seperatedValues[0], out index);
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (index == -1) return -1; // Doesn't exist
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return index;
         }
 
         public bool DeleteAccount()

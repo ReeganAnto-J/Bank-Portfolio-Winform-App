@@ -60,22 +60,33 @@ namespace BankPortfolioWinForm
                     MessageBox.Show(ex.Message, "Recheck your input!");
                 }
             }
-            /* I will check after completing deletion :)
+
             else
             {
                 try
                 {
-                    Script.AccountManagementScript createAccount = new Script.AccountManagementScript();
-                    createAccount.Name = textBox1.Text;
-                    createAccount.DateOfBirth = Convert.ToDateTime(dateTimePicker1.Text);
-                    if (textBox2.Text.Equals(textBox3.Text) == false) throw new InvalidOperationException("Passwords didn't match");
-                    else createAccount.Password = textBox2.Text;
+                    int index;
+                    Script.AccountManagementScript verifyAccount = new Script.AccountManagementScript();
+                    verifyAccount.Name = textBox1.Text;
+                    verifyAccount.DateOfBirth = Convert.ToDateTime(dateTimePicker1.Text);
+                    index = verifyAccount.ValidateAccount();
+                    if (index != -1)
+                    {
+                        MessageBox.Show(Convert.ToString(index));
+                    }
+                    else MessageBox.Show("Unable to validate credentials");
+
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Recheck your input!");
                 }
-            }*/
+            }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        } // Close button
     }
 }
