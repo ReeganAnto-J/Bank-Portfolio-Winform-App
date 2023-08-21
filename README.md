@@ -1,16 +1,16 @@
 # Bank system based CRUD application
-## Portfolio micro-project by Reegan Anto.J
+## WinForm portfolio micro-project by Reegan Anto.J
 
 #### Introduction:
-This is a simple CRUD application which is build using WinForms. I have also implemented many necessary constraints within this program such that it handles most possible user errors on its own.
+This is a simple CRUD application which is built using WinForms. I have also implemented many necessary constraints within this program such that it handling almost every possible user errors.
 
 I made this project in order to express my skills in C# programming language and the underlying .NET framework.
 
 Most of the program is written by myself hence I wouldn't consider this program to be anywhere close to be perfect or optimized; but in all honesty I recieved some help from Stack Overflow and GPT 3.5 for some file handling and basics of WinForms. This is my first ever winform application so don't expect this to be anywhere close to good.
 
-I am a third year student in the Artificial Intelligence and Data Science department of Adhi College of Engineering and Technology and would appreciate any help you could provide me which could potentially improve my skills.
+I am a third year student in the Artificial Intelligence and Data Science department of Adhi College of Engineering and Technology, and would appreciate any help you could provide me which could potentially improve my skills.
 
-#### Key skills I applied (In my humble opinion):
+#### Key skills I applied in this project (In my humble opinion):
 - Applying OOPs concept using C#
 - File Handling
 - Normalization and Specialization of data and files
@@ -51,7 +51,7 @@ Takes Name, DateOfBirth, password, password confirmation
 - Password and password confirmation must be same
 #### Storage
 - The values are stored in Details.csv
-- Auto indexing, which acts as primary key (I wrote the code for auto-indexing)
+- Auto indexing, which acts as primary key (I wrote the code for auto-indexing myself)
 - Automatically fills deleted spaces and takes the index of the deleted value
 - Saves index,name,DOB in Details.csv
 - Saves index,password in Password.csv
@@ -59,10 +59,10 @@ Takes Name, DateOfBirth, password, password confirmation
 
 ### VerificationForm
 --------------------
-If the user chose existing account in the LoginForm it opens the default verification mode
+If the user chose the existing account button in the LoginForm it opens the default verification mode
 It takes name and DOB, if it exists in Details.csv, the user is sent to DriverForm
 
-If the user chose Delete account it opens the form in delete mode
+If the user chose the Delete account button it opens the form in delete mode
 Password and a confirmation box which asks the user to enter "DELETE" will be added to default mode
 If the credentials match the value in all 3 data files will be replaced by ""
 
@@ -95,7 +95,7 @@ This script contains all file handling code except for the driver form
 
 ### DriverScript
 ----------------
-This script contains all necessary operation for the driver form
+This script contains all necessary operation and performs file handling for the driver form
 
 ### InputProperties
 -------------------
@@ -104,10 +104,11 @@ Contains an abstract class which stores all the properties (getters and setters)
 
 
 # Conclusion
-This project wouldn't be that big of a deal to many but I really enjoyed building this project and this means a lot to me
-Practical application of coding feels new compared to endlessly working on console applications
+This project wouldn't be that big of a deal to many but I really enjoyed building this project and this means a lot to me.
 
-I am really happy to hear your thoughts about my program so feel free to comment, it would realy help me improve as a programmer
+Practical application of coding feels new compared to endlessly working on console applications.
+
+I would be really happy to hear your thoughts about my program so feel free to comment, it would really help me improve as a programmer
 
 In case if you happen to be or planning to work on some project and need some aid, feel free to contact me on https://www.linkedin.com/in/reegan-anto-j/
 
