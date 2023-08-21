@@ -72,9 +72,12 @@ namespace BankPortfolioWinForm
                     index = verifyAccount.ValidateAccount();
                     if (index != -1)
                     {
-                        MessageBox.Show(Convert.ToString(index));
+                        DriverForm driverForm = new DriverForm(index);
+                        this.Hide();
+                        driverForm.ShowDialog();
+                        this.Close();
                     }
-                    else MessageBox.Show("Unable to validate credentials");
+                    else MessageBox.Show("Account doesn't exist!");
 
                 }
                 catch (Exception ex)
