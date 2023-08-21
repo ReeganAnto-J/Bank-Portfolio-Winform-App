@@ -5,9 +5,9 @@ namespace BankPortfolioWinForm
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
-        public static string balanceCsvLocation = @"../../../Data/Balance.csv";
-        public static string detailsCsvLocation = @"../../../Data/Details.csv";
-        public static string passwordCsvLocation = @"../../../Data/Password.csv";
+        public const string balanceCsvLocation = @"../../../Data/Balance.csv";
+        public const string detailsCsvLocation = @"../../../Data/Details.csv";
+        public const string passwordCsvLocation = @"../../../Data/Password.csv";
         [STAThread]
         static void Main()
         {
@@ -34,11 +34,11 @@ namespace BankPortfolioWinForm
                     {
                         if (iteration == 0)
                         {
-                            writer.WriteLine("1,ReeganAnto,21-10-2003");
-                            writer.WriteLine("2,SriramL,03-9-2003");
-                            writer.WriteLine("3,VishnuKumar,16-6-2003");
+                            writer.WriteLine("1,Reegan Anto.J,21-10-2003");
+                            writer.WriteLine("2,Sriram.L,03-9-2003");
+                            writer.WriteLine("3,Vishnu Kumar.V,16-6-2003");
                             writer.WriteLine("4,JeswinSamuel,07-3-2003");
-                            writer.WriteLine("5,SanjayP,17-2-2003");
+                            writer.WriteLine("5,Sanjay.P,17-2-2003");
                         }
                         else if (iteration == 1)
                         {
@@ -50,7 +50,7 @@ namespace BankPortfolioWinForm
                         }
                         else
                         {
-                            for (int i = 0; i < 5; i++) { writer.WriteLine("1,0"); }
+                            for (int i = 1; i <= 5; i++) { writer.WriteLine($"{i},0"); }
                         }
                     };
                 }

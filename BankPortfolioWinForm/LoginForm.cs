@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,12 +28,7 @@ namespace BankPortfolioWinForm
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string? isDatabaseEmpty;
-            using (StreamReader checkDbContent = new(@"../../../Data/Details.csv"))
-            {
-                isDatabaseEmpty = checkDbContent.ReadToEnd();
-            }
-            if (string.IsNullOrEmpty(isDatabaseEmpty)) MessageBox.Show("No account exists");
+            if (new FileInfo(Program.detailsCsvLocation).Length == 0) MessageBox.Show("No account exists");
             else
             {
                 VerificationForm verificationForm = new VerificationForm(false);
@@ -44,12 +40,7 @@ namespace BankPortfolioWinForm
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string? isDatabaseEmpty;
-            using (StreamReader checkDbContent = new(@"../../../Data/Details.csv"))
-            {
-                isDatabaseEmpty = checkDbContent.ReadToEnd();
-            }
-            if (string.IsNullOrEmpty(isDatabaseEmpty)) MessageBox.Show("No account exists");
+            if (new FileInfo(Program.detailsCsvLocation).Length == 0) MessageBox.Show("No account exists");
             else
             {
                 VerificationForm verificationForm = new VerificationForm(true);

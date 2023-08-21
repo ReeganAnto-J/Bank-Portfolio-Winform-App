@@ -6,138 +6,67 @@ using System.Threading.Tasks;
 
 namespace BankPortfolioWinForm.Script
 {
-    class AccountManagementScript
+    class AccountManagementScript : InputProperties
     {
-        private string? name, password;
-        private bool deleteConfirmation;
-        private DateTime dateOfBirth;
-
-        public string? Name
+        public bool SaveToFile()
         {
-            get => name;
-            set
-            {
-                if (value == null || value.Length == 0) throw new InvalidDataException("Name cannot be empty!");
-                else if (value.All(Char.IsLetter) == false) throw new InvalidDataException("Name should only have letters");
-                else name = value;
-            }
-        }
-        public DateTime DateOfBirth
-        {
-            get => dateOfBirth;
-            set
-            {
-                // Note to Reegan: Should check later
-                if (DateTime.Today.Year - value.Year < 18) throw new InvalidDataException("Must be 18 or older!");
-                else dateOfBirth = value;
-            }
-        }
-        public string? Password
-        {
-            get => password;
-            set
-            {
-                if (value == null || value.Length == 0) throw new InvalidDataException("Password cannot be empty!");
-                else if (value.Length != 4) throw new InvalidDataException("Password must have 4 digits");
-                else if (!value.All(Char.IsDigit)) throw new InvalidDataException("Password should only have numbers");
-                else password = value;
-            }
-        }
-       public bool DeleteConfirmation { get; set; }
-
-        public int SaveToFile()
-        {
-            string? filePath, tempFilePath, line;
+            string[] filePaths = new string[3] { Program.detailsCsvLocation, Program.passwordCsvLocation, Program.balanceCsvLocation };
+            string line, tempFilePath; 
+            int i; 
             bool replaced;
-            int i;
             try
             {
-                // Storing id number, name and DOB in Details.csv
-                filePath = @"../../../Data/Details.csv";
-                tempFilePath = Path.GetTempFileName();
-                replaced = false;
-                i = 0;
-                using (StreamReader reader = new StreamReader(filePath))
-                using (StreamWriter writer = new StreamWriter(tempFilePath))
+                foreach (string path in filePaths)
                 {
-                    while ((line = reader.ReadLine()) != null)
+                    tempFilePath = Path.GetTempFileName();
+                    replaced = false; i = 0;
+                    using (StreamReader reader  = new StreamReader(path))
+                    using (StreamWriter writer = new StreamWriter(tempFilePath))
                     {
-                        i++;
-                        if ((string.IsNullOrWhiteSpace(line) || line.Equals("DELETED") )&& !replaced)
+                        while ((line = reader.ReadLine()) != null)
                         {
-                            writer.WriteLine($"{i},{Name},{DateOfBirth.ToString("dd/M/yyyy")}");
-                            replaced = true;
+                            i++;
+                            if ((string.IsNullOrWhiteSpace(line) || line.Equals("DELETED")) && !replaced)
+                            {
+                                if (path.Equals(Program.detailsCsvLocation))
+                                {
+                                    writer.WriteLine($"{i},{Name},{DateOfBirth.ToString("dd/M/yyyy")}");
+                                    replaced = true;
+                                }
+                                else if (path.Equals(Program.passwordCsvLocation))
+                                {
+                                    writer.WriteLine($"{i},{Password}");
+                                    replaced = true;
+                                }
+                                else
+                                {
+                                    writer.WriteLine($"{i},{0}");
+                                    replaced = true;
+                                }
+                            }
+                            else
+                            {
+                                writer.WriteLine(line);
+                            }
                         }
-                        else
-                        {
-                            writer.WriteLine(line);
+                        if (!replaced) 
+                        {  
+                            if (path.Equals(Program.detailsCsvLocation)) writer.WriteLine($"{i + 1},{Name},{DateOfBirth.ToString("dd/M/yyyy")}");
+                            else if (path.Equals(Program.passwordCsvLocation)) writer.WriteLine($"{i + 1},{Password}");
+                            else writer.WriteLine($"{i + 1},{0}");
                         }
                     }
-                    if (!replaced) { writer.WriteLine($"{i+1},{Name},{DateOfBirth.ToString("dd/M/yyyy")}"); }
+                    File.Delete(path);
+                    File.Move(tempFilePath, path);
                 }
-                File.Delete(filePath);
-                File.Move(tempFilePath, filePath);
-
-                // Storing id number and password in Password.csv
-                filePath = @"../../../Data/Password.csv";
-                tempFilePath = Path.GetTempFileName();
-                replaced = false;
-                i = 0;
-                using (StreamReader reader = new StreamReader(filePath))
-                using (StreamWriter writer = new StreamWriter(tempFilePath))
-                {
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        i++;
-                        if (string.IsNullOrWhiteSpace(line) || line.Equals("DELETED") && !replaced)
-                        {
-                            writer.WriteLine($"{i},{Password}");
-                            replaced = true;
-                        }
-                        else
-                        {
-                            writer.WriteLine(line);
-                        }
-                    }
-                    if (!replaced) { writer.WriteLine($"{i + 1},{Password}"); }
-                }
-                File.Delete(filePath);
-                File.Move(tempFilePath, filePath);
-
-                // Storing id number and setting balance as zero in Balance.csv
-                filePath = @"../../../Data/Balance.csv";
-                tempFilePath = Path.GetTempFileName();
-                replaced = false;
-                i = 0;
-                using (StreamReader reader = new StreamReader(filePath))
-                using (StreamWriter writer = new StreamWriter(tempFilePath))
-                {
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        i++;
-                        if (string.IsNullOrWhiteSpace(line) || line.Equals("DELETED") && !replaced)
-                        {
-                            writer.WriteLine($"{i},{0}");
-                            replaced = true;
-                        }
-                        else
-                        {
-                            writer.WriteLine(line);
-                        }
-                    }
-                    if (!replaced) { writer.WriteLine($"{i + 1},{0}"); }
-                }
-                File.Delete(filePath);
-                File.Move(tempFilePath, filePath);
-
-                // Indicating that the saving is successful!
-                return 1;
+                return true;
             }
-            catch (Exception)
+            catch
             {
-                return 0; 
+                return false;
             }
         }
+
 
         public int ValidateAccount()
         {
