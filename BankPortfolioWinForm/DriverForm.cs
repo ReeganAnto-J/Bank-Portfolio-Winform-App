@@ -175,14 +175,14 @@ namespace BankPortfolioWinForm
                         {
                             driverScript.Amount = Convert.ToInt32(textBox2.Text);
                             driverScript.Amount = Convert.ToInt32(textBox2.Text);
-                            if (driverScript.Deposit()) MessageBox.Show($"Amount {driverScript.Amount:c} has been withdrawn");
+                            if (driverScript.Withdraw()) MessageBox.Show($"Amount {driverScript.Amount:c} has been withdrawn");
                             else throw new Exception($"Insufficient Balance!");
                             mode = DriverMode.selection;
                             ButtonShowOrHide();
                         }
                         else throw new InvalidDataException("Enter only numbers");
                     }
-                    else
+                    else if (mode == DriverMode.checkBalance)
                     {
                         label5.Text = $"{driverScript.Balance():c}";
                     }

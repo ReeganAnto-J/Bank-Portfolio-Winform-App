@@ -43,19 +43,78 @@ namespace BankPortfolioWinForm.Script
             return false;
         }
 
+        public void BalanceUpdatation(int newBalance)
+        {
+            string filePath = @"../../../Data/Balance.csv";
+            string tempFilePath = Path.GetTempFileName(), line;
+            using (StreamReader reader = new StreamReader(filePath))
+            using (StreamWriter writer = new StreamWriter(tempFilePath))
+            {
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (line.Split(',')[0].Equals(Convert.ToString(Index)))
+                    {
+                        writer.WriteLine($"{Index},{newBalance}");
+                    }
+                    else
+                    {
+                        writer.WriteLine(line);
+                    }
+                }
+            }
+            File.Delete(filePath);
+            File.Move(tempFilePath, filePath);
+        }
+
         public bool Deposit() 
         {
-            return false;
+            int balance = Balance();
+            try
+            {
+                balance += Amount;
+                BalanceUpdatation(balance);
+                return true;
+            }
+            catch (OverflowException)
+            {
+                throw new InvalidDataException($"Bank account has a limit of {int.MaxValue:c}");
+            }
         }
 
         public bool Withdraw()
         {
-            return false;
+            int balance = Balance();
+            if (balance - Amount < 0)
+            {
+                throw new InvalidDataException("Insufficient Balance");
+            }
+            else
+            {
+                balance -= Amount;
+                BalanceUpdatation(balance);
+                return true;
+            }
         }
 
         public int Balance()
         {
-            return 0;
+            try
+            {
+                string[] credentialFromIndex;
+                using (StreamReader reader = new StreamReader(@"../../../Data/Balance.csv"))
+                {
+                    for (int i = 0; i < Index; i++)
+                    {
+                        credentialFromIndex = reader.ReadLine().Split(',');
+                        if (credentialFromIndex[0].Equals(Convert.ToString(Index)))
+                        {
+                            return Convert.ToInt32(credentialFromIndex[1]);
+                        }
+                    }
+                }
+                return -1;
+            }
+            catch (Exception ex) { return -1; }
         }
     }
 }
