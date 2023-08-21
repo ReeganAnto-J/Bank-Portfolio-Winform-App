@@ -84,3 +84,19 @@ Removes specified value from balance as long as balance doesn't go below 0
 
 #### Check Balance
 Returns balance when user inputs the correct password
+
+
+# Script
+The 3 scripts are the heart of the program, I made these scripts to act as file handler, driver and variable handler. 
+
+### AccountManagementScript
+---------------------------
+This script contains all file handling code except for the driver form
+
+### DriverScript
+----------------
+This script contains all necessary operation for the driver form
+
+### InputProperties
+-------------------
+Contains an abstract class which stores all the properties (getters and setters) in this program which is also responsible for enfocing most constraints
