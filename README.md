@@ -21,7 +21,66 @@ I am a third year student in the Artificial Intelligence and Data Science depart
 - Using debugging tools offered by Visual Studio
 - Problem solving
 
-Below I will explain the program step by step.
+Below I will explain the program file by file.
 
 # State Diagram:
 ![StateDiagram](BankStateDiagram.jpg)
+
+# Forms:
+### LoginForm
+----------------
+This is the first form you would see after Form1 (Introduction Form)
+This form acts as the main menu for the user
+#### New account
+Opens the CreationForm
+#### Existing account
+Opens the default VerificationForm
+#### Delete account
+Opens the delete version of VerificationForm
+
+### CreationForm
+----------------
+This form is used to create an user account
+Takes Name, DateOfBirth, password, password confirmation
+#### Constraints:
+- No input box should be empty (Applies to all boxes)
+- Name should only contain letters, spaces and dots, and is limited to 15 characters
+- Age should be atleast 18 years old
+- Name and DOB combination should be unique
+- Password must have 4 digits, numbers only
+- Password and password confirmation must be same
+#### Storage
+- The values are stored in Details.csv
+- Auto indexing, which acts as primary key (I wrote the code for auto-indexing)
+- Automatically fills deleted spaces and takes the index of the deleted value
+- Saves index,name,DOB in Details.csv
+- Saves index,password in Password.csv
+- Saves index,0 in Balance.csv
+
+### VerificationForm
+--------------------
+If the user chose existing account in the LoginForm it opens the default verification mode
+It takes name and DOB, if it exists in Details.csv, the user is sent to DriverForm
+
+If the user chose Delete account it opens the form in delete mode
+Password and a confirmation box which asks the user to enter "DELETE" will be added to default mode
+If the credentials match the value in all 3 data files will be replaced by ""
+
+### DriverForm
+---------------
+(Note: The entire driver form runs on single account and one must log out and log back in to switch account)
+If the user is verified in the default VerificationForm this form will be opened
+It has 3 choices Deposit, Withdraw and CheckBalance all modifies this same form instead of creating new instances
+
+#### Deposit
+Asks the password from the user
+Adds the specified value to the amount to the balance
+It doesn't allow int overflow, I used int32 because 2000000000 seems to be a lot of money regardless of what currency you use,
+It also doesn't accept negative value
+
+#### Withdraw
+Asks password from user
+Removes specified value from balance as long as balance doesn't go below 0
+
+#### Check Balance
+Returns balance when user inputs the correct password
