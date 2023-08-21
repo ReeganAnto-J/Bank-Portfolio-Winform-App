@@ -94,6 +94,7 @@
             textBox1.Size = new Size(100, 23);
             textBox1.TabIndex = 4;
             textBox1.UseSystemPasswordChar = true;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label1
             // 

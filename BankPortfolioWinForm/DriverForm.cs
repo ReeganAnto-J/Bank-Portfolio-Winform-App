@@ -23,8 +23,7 @@ namespace BankPortfolioWinForm
         }
 
         DriverMode mode = DriverMode.selection;
-
-        private int index;
+        int index;
         public DriverForm(int i)
         {
             InitializeComponent();
@@ -97,7 +96,7 @@ namespace BankPortfolioWinForm
             try
             {
                 string[] credentialFromIndex;
-                using (StreamReader reader = new StreamReader(@"../../../Data/Details.csv"))
+                using (StreamReader reader = new StreamReader(Program.detailsCsvLocation))
                 {
                     for (int i = 0; i < index; i++)
                     {
@@ -129,19 +128,22 @@ namespace BankPortfolioWinForm
 
         } // Ignore
 
+        // Deposit
         private void button1_Click(object sender, EventArgs e)
         {
             mode = DriverMode.deposit;
             ButtonShowOrHide();
-        } // Deposit
+        }
 
+        // Withdraw
         private void button2_Click(object sender, EventArgs e)
         {
             mode = DriverMode.withdraw;
             ButtonShowOrHide();
-        }// Withdraw
+        }
 
-        private void button3_Click(object sender, EventArgs e) // Check Balance
+        // Check Balance
+        private void button3_Click(object sender, EventArgs e) 
         {
             mode = DriverMode.checkBalance;
             ButtonShowOrHide();
@@ -179,6 +181,7 @@ namespace BankPortfolioWinForm
                             else throw new Exception($"Insufficient Balance!");
                             mode = DriverMode.selection;
                             ButtonShowOrHide();
+                            // By Reegan Anto.J // https://www.linkedin.com/in/reegan-anto-j
                         }
                         else throw new InvalidDataException("Enter only numbers");
                     }
@@ -194,5 +197,10 @@ namespace BankPortfolioWinForm
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        } // Ignore
     }
 }

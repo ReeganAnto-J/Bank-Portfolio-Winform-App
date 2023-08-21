@@ -7,28 +7,12 @@ using System.Threading.Tasks;
 
 namespace BankPortfolioWinForm.Script
 {
-    class DriverScript
+    class DriverScript : InputProperties
     {
-        private string? password;
-        private int amount;
-        public string? Password
-        {
-            get => password;
-            set
-            {
-                if (value == null || value.Length == 0) throw new InvalidDataException("Password cannot be empty!");
-                else if (value.Length != 4) throw new InvalidDataException("Password must have 4 digits");
-                else if (!value.All(Char.IsDigit)) throw new InvalidDataException("Password should only have numbers");
-                else password = value;
-            }
-        }
-        public int Amount { get; set; }
-        public int Index { get; set; }
-
         public bool PasswordChecker()
         {
             string[] credentialFromIndex;
-            using (StreamReader reader = new StreamReader(@"../../../Data/Password.csv"))
+            using (StreamReader reader = new StreamReader(Program.passwordCsvLocation))
             {
                 for (int i = 0; i < Index; i++)
                 {
@@ -45,7 +29,7 @@ namespace BankPortfolioWinForm.Script
 
         public void BalanceUpdatation(int newBalance)
         {
-            string filePath = @"../../../Data/Balance.csv";
+            string filePath = Program.balanceCsvLocation;
             string tempFilePath = Path.GetTempFileName(), line;
             using (StreamReader reader = new StreamReader(filePath))
             using (StreamWriter writer = new StreamWriter(tempFilePath))
@@ -71,7 +55,7 @@ namespace BankPortfolioWinForm.Script
             int balance = Balance();
             try
             {
-                balance += Amount;
+                checked { balance = balance + Amount; }
                 BalanceUpdatation(balance);
                 return true;
             }
@@ -95,13 +79,13 @@ namespace BankPortfolioWinForm.Script
                 return true;
             }
         }
-
+        // By Reegan Anto.J  https://www.linkedin.com/in/reegan-anto-j
         public int Balance()
         {
             try
             {
                 string[] credentialFromIndex;
-                using (StreamReader reader = new StreamReader(@"../../../Data/Balance.csv"))
+                using (StreamReader reader = new StreamReader(Program.balanceCsvLocation))
                 {
                     for (int i = 0; i < Index; i++)
                     {
@@ -114,7 +98,7 @@ namespace BankPortfolioWinForm.Script
                 }
                 return -1;
             }
-            catch (Exception ex) { return -1; }
+            catch (Exception) { return -1; }
         }
     }
 }

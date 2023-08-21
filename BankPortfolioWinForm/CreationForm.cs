@@ -22,6 +22,7 @@ namespace BankPortfolioWinForm
 
         }// Ignore
 
+        // Submit
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -29,9 +30,11 @@ namespace BankPortfolioWinForm
                 Script.AccountManagementScript createAccount = new Script.AccountManagementScript();
                 createAccount.Name = textBox1.Text;
                 createAccount.DateOfBirth = Convert.ToDateTime(dateTimePicker1.Text);
+                if (createAccount.CheckDuplicateAccount()) throw new InvalidDataException("Account already exists!");
+                if (!textBox2.Text.All(Char.IsDigit)) throw new InvalidDataException("Password should only have numbers");
                 if (textBox2.Text.Equals(textBox3.Text) == false) throw new InvalidOperationException("Passwords didn't match");
                 else createAccount.Password = textBox2.Text;
-                if(createAccount.SaveToFile())
+                if (createAccount.SaveOrDelete(false))
                 {
                     MessageBox.Show("Contents were saved successfully!");
                     this.Close();
@@ -52,5 +55,10 @@ namespace BankPortfolioWinForm
         {
 
         } // Ignore
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

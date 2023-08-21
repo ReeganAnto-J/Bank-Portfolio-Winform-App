@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace BankPortfolioWinForm.Script
 {
     class AccountManagementScript : InputProperties
     {
-        public bool SaveToFile()
+        public bool SaveOrDelete(bool delete)
         {
             string[] filePaths = new string[3] { Program.detailsCsvLocation, Program.passwordCsvLocation, Program.balanceCsvLocation };
             string line, tempFilePath; 
@@ -26,31 +27,45 @@ namespace BankPortfolioWinForm.Script
                         while ((line = reader.ReadLine()) != null)
                         {
                             i++;
-                            if ((string.IsNullOrWhiteSpace(line) || line.Equals("DELETED")) && !replaced)
+                            if (delete)
                             {
-                                if (path.Equals(Program.detailsCsvLocation))
+                                if (line.Split(",")[0].Equals(Convert.ToString(Index)))
                                 {
-                                    writer.WriteLine($"{i},{Name},{DateOfBirth.ToString("dd/M/yyyy")}");
-                                    replaced = true;
-                                }
-                                else if (path.Equals(Program.passwordCsvLocation))
-                                {
-                                    writer.WriteLine($"{i},{Password}");
-                                    replaced = true;
+                                    writer.WriteLine("");
                                 }
                                 else
                                 {
-                                    writer.WriteLine($"{i},{0}");
-                                    replaced = true;
+                                    writer.WriteLine(line);
                                 }
                             }
                             else
                             {
-                                writer.WriteLine(line);
+                                if ((string.IsNullOrWhiteSpace(line) || line.Equals("")) && !replaced)
+                                {
+                                    if (path.Equals(Program.detailsCsvLocation))
+                                    {
+                                        writer.WriteLine($"{i},{Name},{DateOfBirth.ToString("dd/M/yyyy")}");
+                                        replaced = true;
+                                    }
+                                    else if (path.Equals(Program.passwordCsvLocation))
+                                    {
+                                        writer.WriteLine($"{i},{Password}");
+                                        replaced = true;
+                                    }
+                                    else
+                                    {
+                                        writer.WriteLine($"{i},{0}");
+                                        replaced = true;
+                                    }
+                                }
+                                else
+                                {
+                                    writer.WriteLine(line);
+                                }
                             }
                         }
-                        if (!replaced) 
-                        {  
+                        if (!replaced && !delete)
+                        {
                             if (path.Equals(Program.detailsCsvLocation)) writer.WriteLine($"{i + 1},{Name},{DateOfBirth.ToString("dd/M/yyyy")}");
                             else if (path.Equals(Program.passwordCsvLocation)) writer.WriteLine($"{i + 1},{Password}");
                             else writer.WriteLine($"{i + 1},{0}");
@@ -67,11 +82,35 @@ namespace BankPortfolioWinForm.Script
             }
         }
 
+        public bool CheckDuplicateAccount()
+        {
+            string?[] splittedLine;
+            string? line;
+            using (StreamReader reader = new StreamReader(Program.detailsCsvLocation))
+            {
+                while ((line = reader.ReadLine()) != null)
+                {
+                    splittedLine = line.Split(',');
+                    if (!string.IsNullOrEmpty(splittedLine.FirstOrDefault()))
+                    {
+                        if (splittedLine[1].Equals(Name) && splittedLine[2].Equals(DateOfBirth.ToString("dd/M/yyyy")))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        /* Note this entire app is built by Reegan Anto.J 
+            If someone is stupid enough to copy my sorry app, I am really
+            sorry for them*/
 
         public int ValidateAccount()
         {
             int index = -1;
-            string? filePath = @"../../../Data/Details.csv";
+            string? filePath = Program.detailsCsvLocation;
             string[] seperatedValues, fileReadValue;
             try
             {
@@ -101,51 +140,10 @@ namespace BankPortfolioWinForm.Script
         }
 
         public bool DeleteAccount()
-        {
-            int index = -1;
-            string? filePath = @"../../../Data/Details.csv";
-            string[] seperatedValues, fileReadValue;
-            try
-            {
-                // To check if the value exists and to find the index
-                using (StreamReader reader = new StreamReader(filePath))
-                {
-                    while (!reader.EndOfStream)
-                    {
-                        seperatedValues = reader.ReadLine().Split(',');
-                        if (seperatedValues.Length > 2)
-                        {
-                            if (seperatedValues[1].Equals(Name) && seperatedValues[2].Equals(DateOfBirth.ToString("dd/M/yyyy")))
-                            {
-                                int.TryParse(seperatedValues[0], out index);
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (index == -1) return false; // Doesn't exist
-
-                // To remove from Details.csv
-                fileReadValue = File.ReadAllLines(filePath);
-                fileReadValue[index - 1] = "DELETED";
-                File.WriteAllLines(filePath, fileReadValue);
-
-                // To remove from Password.csv
-                filePath = @"../../../Data/Password.csv";
-                fileReadValue = File.ReadAllLines(filePath);
-                fileReadValue[index - 1] = "DELETED";
-                File.WriteAllLines(filePath, fileReadValue);
-
-                // To remove from Balance.csv
-                filePath = @"../../../Data/Balance.csv";
-                fileReadValue = File.ReadAllLines(filePath);
-                fileReadValue[index - 1] = "DELETED";
-                File.WriteAllLines(filePath, fileReadValue);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+        {            
+            Index = ValidateAccount();
+            if (Index == -1) return false;
+            SaveOrDelete(true);
             return true;
         }
     }

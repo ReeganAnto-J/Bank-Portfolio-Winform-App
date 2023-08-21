@@ -38,6 +38,7 @@
             dateTimePicker1 = new DateTimePicker();
             button1 = new Button();
             label5 = new Label();
+            button2 = new Button();
             SuspendLayout();
             // 
             // textBox1
@@ -135,11 +136,22 @@
             label5.TabIndex = 10;
             label5.Text = "Account Creation";
             // 
+            // button2
+            // 
+            button2.Location = new Point(469, 305);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 11;
+            button2.Text = "Close";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // CreationForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button2);
             Controls.Add(label5);
             Controls.Add(button1);
             Controls.Add(dateTimePicker1);
@@ -168,5 +180,6 @@
         private DateTimePicker dateTimePicker1;
         private Button button1;
         private Label label5;
+        private Button button2;
     }
 }

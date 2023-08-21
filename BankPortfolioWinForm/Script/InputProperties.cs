@@ -8,8 +8,8 @@ namespace BankPortfolioWinForm.Script
 {
     abstract class InputProperties
     {
+        private int amount;
         private string? name, password;
-        private bool deleteConfirmation;
         private DateTime dateOfBirth;
 
         public string? Name
@@ -39,10 +39,20 @@ namespace BankPortfolioWinForm.Script
             {
                 if (string.IsNullOrEmpty(value)) throw new InvalidDataException("Password cannot be empty!");
                 else if (value.Length != 4) throw new InvalidDataException("Password must have 4 digits");
-                else if (!value.All(Char.IsDigit)) throw new InvalidDataException("Password should only have numbers");
                 else password = value;
             }
         }
         public bool DeleteConfirmation { get; set; }
+        // By Reegan Anto.J // https://www.linkedin.com/in/reegan-anto-j
+        public int Amount
+        {
+            get => amount;
+            set
+            {
+                if (value < 0) throw new InvalidDataException("Amount cannot be negative");
+                else amount = value;
+            }
+        }
+        public int Index { get; set; }
     }
 }

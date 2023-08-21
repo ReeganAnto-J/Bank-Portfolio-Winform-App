@@ -3,7 +3,11 @@ namespace BankPortfolioWinForm
     internal static class Program
     {
         /// <summary>
-        ///  The main entry point for the application.
+        ///  A simple portfolio application using CRUD functionalities
+        ///  Written, tested and refactored by Reegan Anto.J
+        ///  ADHI College of Engineering and Technology, Kanchipuram, TamilNadu, India
+        ///  As of now, this program has only been tested manually
+        ///  possibility for bugs exist.
         /// </summary>
         public const string balanceCsvLocation = @"../../../Data/Balance.csv";
         public const string detailsCsvLocation = @"../../../Data/Details.csv";
@@ -56,6 +60,9 @@ namespace BankPortfolioWinForm
                 }
                 iteration++;
             }
+            // Written, edited and refactored by Reegan Anto.J 
+            // https://www.linkedin.com/in/reegan-anto-j
+            // https://github.com/ReeganAnto-J
         }
     }
 }
