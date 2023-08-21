@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankPortfolioWinForm.Script;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -43,6 +44,8 @@ namespace BankPortfolioWinForm
             label3.Hide(); // MODE
             label4.Hide(); // Balance: text
             label5.Hide(); // Balance: value
+            button6.Hide(); // Submit Button
+
             switch (mode)
             {
                 case DriverMode.selection:
@@ -54,29 +57,37 @@ namespace BankPortfolioWinForm
                     button4.Show();
                     label1.Show();
                     textBox1.Show();
+                    textBox1.Clear();
                     label3.Show();
                     label3.Text = "DEPOSIT";
                     label2.Show();
                     textBox2.Show();
+                    textBox2.Clear();
+                    button6.Show();
                     break;
                 case DriverMode.withdraw:
                     button4.Show();
                     label1.Show();
                     textBox1.Show();
+                    textBox1.Clear();
                     label3.Show();
                     label3.Text = "WITHDRAW";
                     label2.Show();
                     textBox2.Show();
+                    textBox2.Clear();
+                    button6.Show();
                     break;
                 case DriverMode.checkBalance:
                     button4.Show();
                     label1.Show();
                     textBox1.Show();
+                    textBox1.Clear();
                     label3.Show();
                     label3.Text = "CHECK BALANCE";
                     label4.Show();
                     label5.Show();
                     label5.Text = "Enter your password!";
+                    button6.Show();
                     break;
             }
         }
@@ -139,7 +150,49 @@ namespace BankPortfolioWinForm
         // Submit button, very important
         private void button6_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                DriverScript driverScript = new DriverScript();
+                driverScript.Index = index;
+                driverScript.Password = textBox1.Text;
+                if (driverScript.PasswordChecker())
+                {
+                    if (mode == DriverMode.deposit)
+                    {
+                        if (int.TryParse(textBox2.Text, out _))
+                        {
+                            driverScript.Amount = Convert.ToInt32(textBox2.Text);
+                            if (driverScript.Deposit()) MessageBox.Show($"Amount {driverScript.Amount:c} has been deposited");
+                            else throw new Exception($"Unable to deposit {driverScript.Amount:c}");
+                            mode = DriverMode.selection;
+                            ButtonShowOrHide();
+                        }
+                        else throw new InvalidDataException("Enter only numbers");
+                    }
+                    else if (mode == DriverMode.withdraw)
+                    {
+                        if (int.TryParse(textBox2.Text, out _))
+                        {
+                            driverScript.Amount = Convert.ToInt32(textBox2.Text);
+                            driverScript.Amount = Convert.ToInt32(textBox2.Text);
+                            if (driverScript.Deposit()) MessageBox.Show($"Amount {driverScript.Amount:c} has been withdrawn");
+                            else throw new Exception($"Insufficient Balance!");
+                            mode = DriverMode.selection;
+                            ButtonShowOrHide();
+                        }
+                        else throw new InvalidDataException("Enter only numbers");
+                    }
+                    else
+                    {
+                        label5.Text = $"{driverScript.Balance():c}";
+                    }
+                }
+                else throw new InvalidDataException("Password didn't match the account");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -46,7 +46,7 @@
             // button1
             // 
             button1.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(30, 35);
+            button1.Location = new Point(319, 35);
             button1.Name = "button1";
             button1.Size = new Size(188, 71);
             button1.TabIndex = 0;
@@ -57,7 +57,7 @@
             // button2
             // 
             button2.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            button2.Location = new Point(312, 35);
+            button2.Location = new Point(319, 156);
             button2.Name = "button2";
             button2.Size = new Size(188, 71);
             button2.TabIndex = 1;
@@ -68,7 +68,7 @@
             // button3
             // 
             button3.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            button3.Location = new Point(585, 35);
+            button3.Location = new Point(319, 265);
             button3.Name = "button3";
             button3.Size = new Size(188, 71);
             button3.TabIndex = 2;

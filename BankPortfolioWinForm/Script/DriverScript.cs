@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ namespace BankPortfolioWinForm.Script
     class DriverScript
     {
         private string? password;
+        private int amount;
         public string? Password
         {
             get => password;
@@ -20,10 +22,40 @@ namespace BankPortfolioWinForm.Script
                 else password = value;
             }
         }
+        public int Amount { get; set; }
+        public int Index { get; set; }
+
         public bool PasswordChecker()
+        {
+            string[] credentialFromIndex;
+            using (StreamReader reader = new StreamReader(@"../../../Data/Password.csv"))
+            {
+                for (int i = 0; i < Index; i++)
+                {
+                    credentialFromIndex = reader.ReadLine().Split(',');
+                    if (credentialFromIndex[0].Equals(Convert.ToString(Index)))
+                    {
+                        if (credentialFromIndex[1].Equals(Password))
+                        { return true; }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool Deposit() 
         {
             return false;
         }
 
+        public bool Withdraw()
+        {
+            return false;
+        }
+
+        public int Balance()
+        {
+            return 0;
+        }
     }
 }
